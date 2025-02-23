@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Index - KnightOne Bootstrap Template</title>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+  
+    <!-- Favicons -->
+    <link href="static/assets/img/favicon.png" rel="icon">
+    <link href="static/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+  
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+  
+    <!-- Vendor CSS Files -->
+    <link href="static/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="static/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="static/assets/vendor/aos/aos.css" rel="stylesheet">
+    <link href="static/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="static/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+  
+    <!-- Main CSS File -->
+    <link href="static/assets/css/main.css" rel="stylesheet">
+</head>
+<body class="index-page">
+
+    <header id="header" class="header d-flex align-items-center fixed-top">
+      <div class="container position-relative d-flex align-items-center justify-content-between">
+        <a href="index.html" class="logo d-flex align-items-center me-auto me-xl-0">
+          <h1 class="sitename">Startup Village VEO</h1>
+        </a>
+        <nav id="navmenu" class="navmenu">
+          <ul>
+            <li><a href="#mascot" class="active">Accueil</a></li>
+            <li><a href="#mascot">À propos</a></li>
+            
+          </ul>
+          <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+        </nav>
+        <a class="cta-btn" href="#about">Commencer</a>
+      </div>
+    </header>
+
+
+
+    <section id="about" class="about section">
+        <div class="container section-title" data-aos="fade-up">
+            <h2>Résultats de la Recherche</h2>
+            <p>Pays: {{ country }}</p>
+            <p>Département: {{ department }}</p>
+            <p>Famille de produit: {{ product }}</p>
+        </div>
+        <div class="container">
+            {% if error %}
+                <p style="color: red;">{{ error }}</p>
+            {% else %}
+                <h2>Fournisseurs Trouvés</h2>
+                <br><br>
+        
+                {% for supplier in suppliers %}
+                    <!-- Supplier Name (Clickable to Open Modal) -->
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#supplierModal{{ loop.index }}">
+                        <p><strong>Nom:</strong> {{ supplier['nom'] }}</p>
+                    </a>
+                    <hr>  <!-- Optional: Adds a separator between each supplier -->
+
+                    <!-- Modal for Supplier Details -->
+                    <div class="modal fade" id="supplierModal{{ loop.index }}" tabindex="-1" aria-labelledby="supplierModalLabel{{ loop.index }}" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="supplierModalLabel{{ loop.index }}">{{ supplier['nom'] }}</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <p><strong>Téléphone:</strong> {{ supplier['telephone'] }}</p>
+                                    <p><strong>Email:</strong> {{ supplier['email'] }}</p>
+                                    <p><strong>Date de Création:</strong> {{ supplier['date_creation'] }}</p>
+                                    <p><strong>Âge:</strong> {{ supplier['age'] }}</p>
+                                    <p><strong>Code Postal:</strong> {{ supplier['code_postal'] }}</p>
+                                    <p><strong>Ville:</strong> {{ supplier['ville'] }}</p>
+                                    <p><strong>Famille:</strong> {{ supplier['famille'] }}</p>
+                                    <p><strong>Micro-Famille:</strong> {{ supplier['micro-famille'] }}</p>
+                                    <p><strong>Chiffre d'Affaire:</strong> {{ supplier['chiffre_affair'] }}</p>
+                                    <p><strong>SIREN:</strong> {{ supplier['SIREN'] }}</p>
+                                    <p><strong>SIRET:</strong> {{ supplier['SIRET'] }}</p>
+                                    <p><strong>Nom Dirigeant:</strong> {{ supplier['dirigeant'] }}</p>
+
+                                    <!-- Button to Check CRM -->
+                                    <button class="btn btn-primary check-crm-btn" data-supplier-siren="{{ supplier['SIREN'] }}">
+                                        Vérifier dans le CRM
+                                    </button>
+
+                                    <!-- Placeholder for CRM Check Result -->
+                                    <div id="crmResult{{ loop.index }}" class="mt-3"></div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </section>
+
+    <footer id="footer" class="footer dark-background">
+        <div class="container">
+            <h3 class="sitename">KnightOne</h3>
+            <p>Et aut eum quis fuga eos sunt ipsa nihil. Labore corporis magni eligendi fuga maxime saepe commodi placeat.</p>
+            <div class="social-links d-flex justify-content-center">
+                <a href=""><i class="bi bi-twitter-x"></i></a>
+                <a href=""><i class="bi bi-facebook"></i></a>
+                <a href=""><i class="bi bi-instagram"></i></a>
+                <a href=""><i class="bi bi-skype"></i></a>
+                <a href=""><i class="bi bi-linkedin"></i></a>
+            </div>
+            <div class="container">
+                <div class="copyright">
+                    <span>Copyright</span> <strong class="px-1 sitename">KnightOne</strong> <span>All Rights Reserved</span>
+                </div>
+                <div class="credits">
+                    Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a> Distributed by <a href=“https://themewagon.com>ThemeWagon
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Vendor JS Files -->
+    <script src="static/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="static/assets/vendor/aos/aos.js"></script>
+    <script src="static/assets/vendor/glightbox/js/glightbox.min.js"></script>
+    <script src="static/assets/vendor/swiper/swiper-bundle.min.js"></script>
+
+    <!-- Main JS File -->
+    <script src="static/assets/js/main.js"></script>
+
+    <!-- Custom Script for CRM Check -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Add event listeners to all CRM check buttons
+            document.querySelectorAll('.check-crm-btn').forEach(function (button) {
+                button.addEventListener('click', function () {
+                    const siren = this.getAttribute('data-supplier-siren');
+                    const modalId = this.closest('.modal').id;
+                    const resultDiv = document.querySelector(`#${modalId} #crmResult${modalId.replace('supplierModal', '')}`);
+
+                    // Send AJAX request to the server
+                    fetch(`/check-crm?siren=${siren}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.exists) {
+                                resultDiv.innerHTML = `<p class="text-success">Cette entreprise existe dans le CRM.</p>`;
+                            } else {
+                                resultDiv.innerHTML = `<p class="text-danger">Cette entreprise n'existe pas dans le CRM.</p>`;
+                            }
+                        })
+                        .catch(error => {
+                            resultDiv.innerHTML = `<p class="text-danger">Une erreur s'est produite lors de la vérification.</p>`;
+                        });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
